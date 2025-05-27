@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="20mm"
+   height="20mm"
+   viewBox="0 0 20 20"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="music_on.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="6.3568651"
+     inkscape:cx="40.035457"
+     inkscape:cy="29.810291"
+     inkscape:window-width="1440"
+     inkscape:window-height="900"
+     inkscape:window-x="1920"
+     inkscape:window-y="65"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke-width:0.706744"
+       id="path1"
+       cx="10"
+       cy="10"
+       r="10" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.636069"
+       id="path1-0"
+       cx="10"
+       cy="10"
+       r="9" />
+    <ellipse
+       style="fill:#000000;fill-opacity:1;stroke-width:0.300955"
+       id="path2"
+       cx="3.2544115"
+       cy="13.883678"
+       rx="2.7581115"
+       ry="1.9780879"
+       transform="rotate(-9.17367)" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:0.268216"
+       id="rect3"
+       width="1.0082805"
+       height="8.3361025"
+       x="6.9417224"
+       y="3.9773085" />
+    <ellipse
+       style="fill:#000000;fill-opacity:1;stroke-width:0.300955"
+       id="path2-4"
+       cx="10.391933"
+       cy="14.631804"
+       rx="2.7581115"
+       ry="1.9780879"
+       transform="rotate(-9.17367)" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:0.268216"
+       id="rect3-5"
+       width="1.0082805"
+       height="8.3361025"
+       x="14.107224"
+       y="3.5779469" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:0.169735"
+       id="rect5"
+       width="7.3364277"
+       height="1.1979353"
+       x="5.2555928"
+       y="4.6909356"
+       transform="matrix(0.99811152,-0.0614279,0.37451776,0.92721974,0,0)" />
+  </g>
+</svg>

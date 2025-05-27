@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="10mm"
+   height="10mm"
+   viewBox="0 0 10 10"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="cursor.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="14.811682"
+     inkscape:cx="12.726441"
+     inkscape:cy="15.629555"
+     inkscape:window-width="1440"
+     inkscape:window-height="872"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : -138.50001 : 1"
+       inkscape:vp_y="0 : 999.99992 : 0"
+       inkscape:vp_z="210 : -138.50001 : 1"
+       inkscape:persp3d-origin="105 : -188 : 1"
+       id="perspective2" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke-width:0.223242"
+       id="path19"
+       cx="-0.5"
+       cy="-0.5"
+       r="9.5" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.346356"
+       id="path2"
+       cx="-0.19999999"
+       cy="-0.19999999"
+       r="9" />
+    <rect
+       style="display:inline;fill:#000000;fill-opacity:1;stroke-width:0.219028"
+       id="rect1"
+       width="9"
+       height="0.2"
+       x="2.015291e-08"
+       y="7.2137833e-09" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:0.219028"
+       id="rect1-3"
+       width="0.2"
+       height="9"
+       x="2.220446e-16"
+       y="0" />
+  </g>
+</svg>
