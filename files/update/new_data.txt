@@ -1,1 +1,1 @@
-add:"/test";add:"/test/hello";rmd:"/test"
+add:"/test";adf:"/test/hello";rmd:"/test"
