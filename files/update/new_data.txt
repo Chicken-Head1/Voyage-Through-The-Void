@@ -1,1 +1,1 @@
-add:"/new_data.txt";add:"/test.txt"
+add:"/update/new_datas.txt";add:"/test.txt"
