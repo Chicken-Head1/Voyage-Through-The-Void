@@ -1,1 +1,1 @@
-rmf:"/test/hello";rmd:"/test"
+rmf:"/test/hello.txt";rmd:"/test"
