@@ -1,1 +1,1 @@
-
+edi:"/data/version.txt"
