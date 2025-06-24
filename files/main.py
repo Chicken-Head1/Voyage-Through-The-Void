@@ -45,6 +45,25 @@ from typing import NoReturn
 import subprocess
 import time
 from pygame.font import Font
+from threading import Timer
+
+
+
+def save_data(data: dict,
+              path: str,
+              ) -> None:
+    with open(path, 'w') as file:
+        dump(data, file, indent = 2)
+    
+    return
+
+
+def get_data(path: str,
+              ) -> dict:
+    with open(path, 'r') as file:
+        data: dict = load(file)
+
+    return data
 
 
 
@@ -54,6 +73,7 @@ FILEPATH: str = f'{os.path.abspath(__file__)}'
 VERSION_URL = "https://chicken-head1.github.io/Space-Simulator/version.md"
 
 VERSION_PATH = f"/{os.path.join(DIRPATH, "data", "version.txt")}"
+SETTINGS_DATA_PATH = f"{os.path.join(DIRPATH, "data", "settings_data.json")}"
 MENU_BG_PATH = f"/{os.path.join(DIRPATH, "images", "menu_bg.jpeg")}"
 CURSOR_PATH = f"/{os.path.join(DIRPATH, "images", "cursor.svg")}"
 MAIN_MENU_MUSIC_PATH = f"/{os.path.join(DIRPATH, "sound", "main_menu.mp3")}"
@@ -109,6 +129,9 @@ sound_img_size: tuple = (
                   int(win_height/12.457), # height
                   )
 
+
+SETTINGS_DATA: dict = get_data(SETTINGS_DATA_PATH)
+
 # Fonts and global colours
 
 ver_font_div: float = 43.6
@@ -128,12 +151,11 @@ BLACK: tuple = (0, 0, 0)
 HOVER_COLOUR: tuple = (187, 211, 255)
 PURPLE: tuple = (150, 0, 200)
 MENU_GREY: tuple = (130, 130, 130)
-global_font_colour: tuple = WHITE
-global_hover_colour: tuple = HOVER_COLOUR
-global_textbox_active_colour: tuple = PURPLE
-global_textbox_inactive_colour: tuple = GREY
-
 DEBUG_HIGHLIGHT_COLOUR = (0, 211, 0)
+global_font_colour: tuple = SETTINGS_DATA["global_font_colour"]
+global_hover_colour: tuple = SETTINGS_DATA["global_hover_colour"]
+global_textbox_active_colour: tuple = SETTINGS_DATA["global_textbox_active_colour"]
+global_textbox_inactive_colour: tuple = SETTINGS_DATA["global_textbox_inactive_colour"]
 
 PYGAME_DIGIT: list = [
                       pygame.K_0,
@@ -156,11 +178,11 @@ screen: int = 0
 settings_screen: int = 0
 
 max_fps: int = 240
-fps_limit: float = 60
+fps_limit: float = SETTINGS_DATA["fps_limit"]
 
-music_volume: float = 0.15
-click_sfx_volume: float = 1
-previous_volume: float = music_volume
+music_volume: float = SETTINGS_DATA["music_volume"]
+click_sfx_volume: float = SETTINGS_DATA["click_sfx_volume"]
+previous_volume: float = SETTINGS_DATA["previous_volume"]
 
 music_button_div: float = 17.44
 
@@ -168,8 +190,10 @@ click_sfx = pygame.mixer.Sound(CLICK_SFX_PATH)
 click_chanel = pygame.mixer.find_channel()
 click_chanel.set_volume(click_sfx_volume)
 
+save_timer_delay: int = 60
+updating: bool = False
 
-# Menu (?) stuff
+# Menu(?) stuff
 
 settings_font_colour: tuple = global_font_colour
 start_game_font_colour: tuple = global_font_colour
@@ -191,6 +215,11 @@ sound_text_settings_box = pygame.Rect
 return_text_settings_box = pygame.Rect
 settings_bg = pygame.Surface
 update_button = pygame.font
+
+class SaveTimer(Timer):
+    def run(self):
+        while not self.finished.wait(self.interval):
+            self.function(*self.args, **self.kwargs)
 
 class Button:
     def __init__(self, 
@@ -564,6 +593,11 @@ settings_objects: dict = {
                           "click_sfx_volume_input_box": NumberInputBox(1, 1, 1, 1, 1, 1, False, str(int(click_sfx_volume*100)), 100, suff_box_text="%"),
                           "click_sfx_volume_text": TitleText("", 1, 1, 1, 1, global_font_colour),
                           }
+
+
+def save_timer() -> None:
+    save_data(data=SETTINGS_DATA, path=SETTINGS_DATA_PATH)
+    return
 
 
 def get_local_version() -> str:
@@ -1205,6 +1239,9 @@ def settings() -> None:
                                 int(font_colour_input_box_B.text) if font_colour_input_box_B.text != '' else 0,
                                 )
 
+            SETTINGS_DATA["global_font_colour"] = [value for value in global_font_colour]
+
+
         if True: # global hover colour
         
             hover_colour_input_box_R = settings_objects["hover_colour_input_box_R"]
@@ -1281,6 +1318,9 @@ def settings() -> None:
                               int(hover_colour_input_box_G.text) if hover_colour_input_box_G.text != '' else 0,
                               int(hover_colour_input_box_B.text) if hover_colour_input_box_B.text != '' else 0,
                               )
+
+            SETTINGS_DATA["global_hover_colour"] = [value for value in global_hover_colour]
+
 
         if True: # textbox bg active colour (clicked on and typing in)
         
@@ -1359,6 +1399,9 @@ def settings() -> None:
                                         int(textbox_active_colour_input_box_B.text) if textbox_active_colour_input_box_B.text != '' else 0,
                                         )
 
+            SETTINGS_DATA["global_textbox_active_colour"] = [value for value in global_textbox_active_colour]
+
+
         if True: # textbox bg inactive colour (not clicked on or typable)
         
             textbox_inactive_colour_input_box_R = settings_objects["textbox_inactive_colour_input_box_R"]
@@ -1435,6 +1478,9 @@ def settings() -> None:
                                             int(textbox_inactive_colour_input_box_B.text) if textbox_inactive_colour_input_box_B.text != '' else 0,
                                             )
 
+            SETTINGS_DATA["global_textbox_inactive_colour"] = [value for value in global_textbox_inactive_colour]
+
+
         if True: # fps limiter
             
             fps_limit_input_box = settings_objects["fps_limit_input_box"]
@@ -1465,6 +1511,7 @@ def settings() -> None:
 
             settings_objects["fps_limit_input_box"] = fps_limit_input_box
             settings_objects["fps_limit_text"] = fps_limit_text
+            SETTINGS_DATA["fps_limit"] = fps_limit_text
 
             if fps_limit_input_box.text == '':
                 fps_limit = 0
@@ -1512,6 +1559,7 @@ def settings() -> None:
             music_volume = int(music_volume_input_box.text)/100 if music_volume_input_box.text != '' else 0
             settings_objects["music_volume_text"] = music_volume_text
             settings_objects["music_volume_input_box"] = music_volume_input_box
+            SETTINGS_DATA["music_volume"] = music_volume
 
             if music_volume == 0:
                 pygame.mixer.music.pause()
@@ -1557,7 +1605,7 @@ def settings() -> None:
 
             settings_objects["click_sfx_volume_text"] = click_sfx_volume_text
             settings_objects["click_sfx_volume_input_box"] = click_sfx_volume_input_box
-
+            SETTINGS_DATA["click_sfx_volume"] = click_sfx_volume
 
     # Blit the settings backdrop with everything on it to the window
 
@@ -1574,6 +1622,9 @@ def settings() -> None:
 def version_update() -> NoReturn: 
     global screen, music_volume, music_off_box_menu_settings, music_on_box_menu_settings, \
            return_img_box
+    
+    save_timer_timer.cancel()
+    save_timer()
 
     if screen != 3:
         clear_screen()
@@ -1585,8 +1636,6 @@ def version_update() -> NoReturn:
     bg = pygame.image.load(MENU_BG_PATH)
     bg = pygame.transform.scale(bg, (win_width, win_height))
     WINDOW.blit(bg, (0, 0))
-
-
     
     # Return to menu screen
 
@@ -1638,30 +1687,6 @@ def start_simulation() -> None:
     return
 
 
-def show_credits() -> None:
-    global settings_screen
-
-    settings_screen = 1
-
-
-def show_info() -> None:
-    global settings_screen
-
-    settings_screen = 2
-
-
-def show_sound_settings() -> None:
-    global settings_screen
-
-    settings_screen = 3
-
-
-def show_visual_settings() -> None:
-    global settings_screen
-
-    settings_screen = 4
-
-
 def main() -> None:
 
     global current_version, web_version, up_to_date, win_width, win_height, win_right, win_bottom, \
@@ -1677,7 +1702,6 @@ def main() -> None:
     running: bool = True
     current_version = get_local_version()
     web_version = get_web_version()
-    web_version = '0.2.1-pre.alpha' # change this before distribution <---------------------------------------------------------------------------
     dt: float = 0
     up_to_date = check_update()
 
@@ -1688,6 +1712,8 @@ def main() -> None:
             if pyevent.type == pygame.QUIT: # pressed X button on window
                 running = False
                 pygame.quit()
+                save_timer_timer.cancel()
+                save_timer()
                 break
 
             if pyevent.type == pygame.VIDEORESIZE and (win_width != WINDOW.get_width() or win_height != WINDOW.get_height()): # pygame.VIDEORESIZE constantly occurs, so this checks if the window's height or width has changed
@@ -1849,12 +1875,6 @@ def main() -> None:
                             settings_screen = 4
                             continue
 
-                    elif settings_screen == 3: # Visual settings
-                        ...
-
-                    elif settings_screen == 4: # Sound settings
-                        ...
-
                 for obj in settings_objects.values():
                     if not obj.type == INFORMATION:
                         obj.handle_event(pyevent, settings_bg)
@@ -1903,8 +1923,12 @@ def main() -> None:
         dt = clock.tick(fps_limit) / 100
     
     pygame.quit()
+    save_timer_timer.cancel()
+    save_timer()
     return
 
 
 if __name__ == '__main__':
+    save_timer_timer = SaveTimer(save_timer_delay, save_timer)
+    save_timer_timer.start()
     main()
