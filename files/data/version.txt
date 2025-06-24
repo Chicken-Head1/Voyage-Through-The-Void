@@ -1,1 +1,1 @@
-0.2.2-pre.alpha
+0.3.0-pre.alpha
