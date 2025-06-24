@@ -72,7 +72,7 @@ FILEPATH: str = f'{os.path.abspath(__file__)}'
 
 VERSION_URL = "https://chicken-head1.github.io/Space-Simulator/version.md"
 
-VERSION_PATH = f"/{os.path.join(DIRPATH, "data", "version.txt")}"
+VERSION_PATH = f"{os.path.join(DIRPATH, "data", "version.txt")}"
 SETTINGS_DATA_PATH = f"{os.path.join(DIRPATH, "data", "settings_data.json")}"
 MENU_BG_PATH = f"/{os.path.join(DIRPATH, "images", "menu_bg.jpeg")}"
 CURSOR_PATH = f"/{os.path.join(DIRPATH, "images", "cursor.svg")}"
@@ -171,7 +171,7 @@ PYGAME_DIGIT: list = [
                       ]
 
 web_version: str = str()
-current_version: str = str()
+local_version: str = str()
 up_to_date: bool = True
 
 screen: int = 0
@@ -607,8 +607,9 @@ def get_local_version() -> str:
     :return str: A string containing version information.
     """
 
-    with open(VERSION_PATH, 'r') as version:
+    with open(VERSION_PATH, 'rb') as version:
         local_version = version.read()
+        local_version = str(local_version).removeprefix("b'").removesuffix("\\n'")
 
     return local_version
 
@@ -636,11 +637,8 @@ def check_update() -> bool:
 
     :return bool: True if the server could not be accessed or the current version is the most up to date version and False if the version is not up to date.
     """
-    
-    if web_version == current_version or web_version == "":
-        return True
 
-    return False
+    return True if web_version == local_version or web_version == "" else False
 
 
 def clear_screen() -> None:
@@ -681,7 +679,7 @@ def main_menu() -> None:
     bg = pygame.transform.scale(bg, (WINDOW.get_width(), WINDOW.get_height()))
     WINDOW.blit(bg, (0, 0))
 
-    version_text = VER_FONT.render(f"{current_version}", True, global_font_colour)
+    version_text = VER_FONT.render(f"v{local_version}", True, global_font_colour)
     new_update = VER_FONT.render(f"A new update is available -> {web_version}", True, global_font_colour) 
     update_button = VER_FONT.render(f"Update Now", True, version_update_font_colour) # upon pressing "update now", do a get request for the updated files on git
     update_button_rect = update_button.get_rect()
@@ -737,7 +735,7 @@ def main_menu() -> None:
                                      music_off_rect.height,                     # width
                                      )
 
-    if pygame.mixer.music.get_busy():
+    if music_volume != 0:
         WINDOW.blit(music_on_img,
                     (
                         int(win_width-win_width/music_button_div), # Xpos
@@ -848,7 +846,7 @@ def settings() -> None:
                                      music_off_rect.height,                     # width
                                      )
 
-    if pygame.mixer.music.get_busy():
+    if music_volume != 0:
         WINDOW.blit(music_on_img,
                     (
                         int(win_width-win_width/music_button_div), # Xpos
@@ -866,7 +864,7 @@ def settings() -> None:
 
     # Version data + button
 
-    version_text = VER_FONT.render(f"{current_version}", True, global_font_colour)
+    version_text = VER_FONT.render(f"{local_version}", True, global_font_colour)
     new_update = VER_FONT.render(f"A new update is available -> {web_version}", True, global_font_colour) 
     update_button = VER_FONT.render(f"Update Now", True, version_update_font_colour)
     update_button_rect = update_button.get_rect()
@@ -1125,6 +1123,7 @@ def settings() -> None:
                         ),
                         )
 
+
     elif settings_screen == 1: # Credits
         # Menu music credits
         menu_music_credit_text = FONT.render('Menu music by "Ivymusic" on pixabay.com', True, global_font_colour)
@@ -1151,6 +1150,7 @@ def settings() -> None:
                          click_sfx_credit_text_pos,
                          )
 
+
     elif settings_screen == 2: # General info + socials
         discord_link_text = FONT.render("Official Discord: 'discord.gg/JymnDDbK9c'", True, global_font_colour)
         discord_link_text_pos = (
@@ -1158,7 +1158,8 @@ def settings() -> None:
                                  int(settings_bg_height/6),  # Ypos
                                  )
         settings_bg.blit(discord_link_text, discord_link_text_pos)
-    
+
+
     elif settings_screen == 3: # Visual settings - e.g. fps, text colour, hover colour
 
         if True: # global font colour
@@ -1511,7 +1512,6 @@ def settings() -> None:
 
             settings_objects["fps_limit_input_box"] = fps_limit_input_box
             settings_objects["fps_limit_text"] = fps_limit_text
-            SETTINGS_DATA["fps_limit"] = fps_limit_text
 
             if fps_limit_input_box.text == '':
                 fps_limit = 0
@@ -1520,6 +1520,9 @@ def settings() -> None:
             else:
                 fps_limit = int(fps_limit_input_box.text)
                 fps_limit_input_box.pre_box_text = ''
+
+            SETTINGS_DATA["fps_limit"] = fps_limit
+
 
     elif settings_screen == 4: # Sound settings
 
@@ -1689,7 +1692,7 @@ def start_simulation() -> None:
 
 def main() -> None:
 
-    global current_version, web_version, up_to_date, win_width, win_height, win_right, win_bottom, \
+    global local_version, web_version, up_to_date, win_width, win_height, win_right, win_bottom, \
            win_centrex, win_centrey, VER_FONT, FONT, music_volume, settings_text, start_text, \
            update_button, exit_game, settings_font_colour, start_game_font_colour, \
            exit_game_font_colour, version_update_font_colour, return_img_box, info_text_settings_box, \
@@ -1700,8 +1703,10 @@ def main() -> None:
 
     clock = pygame.time.Clock()
     running: bool = True
-    current_version = get_local_version()
+    local_version = get_local_version()
     web_version = get_web_version()
+    print("local_version: ", f'"{local_version}"')
+    print("web_version: ", f'"{web_version}"')
     dt: float = 0
     up_to_date = check_update()
 
