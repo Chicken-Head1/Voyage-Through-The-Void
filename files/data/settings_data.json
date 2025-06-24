@@ -1,0 +1,27 @@
+{
+  "global_font_colour": [
+    255,
+    255,
+    255
+  ],
+  "global_hover_colour": [
+    187,
+    211,
+    255
+  ],
+  "global_textbox_active_colour": [
+    150,
+    0,
+    200
+  ],
+  "global_textbox_inactive_colour": [
+    200,
+    200,
+    200
+  ],
+  "music_volume": 0,
+  "previous_volume": 0.15,
+  "click_sfx_volume": 1.0,
+  "fps_limit": 60,
+  "save_timer_delay": 5
+}
