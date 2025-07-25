@@ -1,1 +1,1 @@
-0.3.0-pre.alpha
+1.0.0-alpha
