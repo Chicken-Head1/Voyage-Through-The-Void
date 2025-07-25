@@ -1,0 +1,40 @@
+{
+    "tanks": {
+        "liquid_fuel_tank": {
+            "weight": 4,
+            "energy_output": 6,
+            "can_turn_off": true,
+            "requires_oxidiser": true,
+            "connects_to": ["oxidiser_tank", "liquid_fuel_tank"]
+        },
+
+        "oxidiser_tank": {
+            "weight": 5,
+            "connects_to": ["oxidiser_tank", "liquid_fuel_tank"]
+        },
+
+        "solid_fuel_tank": {
+            "weight": 2,
+            "energy_output": 8,
+            "can_turn_off": false,
+            "requires_oxidiser": false,
+            "connects_to": ["solid_fuel_tank"]
+        }
+    },
+
+    "enginges": {
+
+    },
+
+    "aerodynamics": {
+
+    },
+
+    "structure": {
+
+    },
+
+    "electrical": {
+
+    }
+}
