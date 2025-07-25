@@ -5,7 +5,7 @@ A game about space craft and interplanertary and interstellar flight.
 Inspiration from the game `Spaceflight Simulator` by Stef.
 
 Scripted by Elia Brady.
-Music and images credited as needed, otherwise created by Elia Brady.
+Music and images credited as needed, otherwise created by Me.
 
 Special thanks to the pre-alpha testers - James, Aayan, Aaliyah, Agamnoor and Aashna - for waiting through my many, many months of programming, or lack thereov.
 Special thanks to James and Aayan for assistance with debugging.
