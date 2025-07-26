@@ -1271,10 +1271,7 @@ def settings() -> None:
     """
     Displays the settings page.
     """
-    global screen, music_volume, settings_bg, settings_screen, \
-           global_textbox_inactive_colour, global_textbox_active_colour, \
-           settings_objects, title_spacing_div, global_font_colour, \
-           global_hover_colour, fps_limit, click_sfx_volume \
+    global screen, music_volume, settings_bg, settings_screen, global_textbox_inactive_colour, global_textbox_active_colour, settings_objects, title_spacing_div, global_font_colour, global_hover_colour, fps_limit, click_sfx_volume
 
     if screen != 2 and settings_screen != 0:
         clear_screen()
@@ -2522,11 +2519,7 @@ def start_simulation() -> None:
 
 def main() -> None:
 
-    global local_version, web_version, up_to_date, win_width, win_height, \
-            win_right, win_bottom, win_centrex, win_centrey, VER_FONT, FONT, \
-            music_volume, exit_game, settings_screen, previous_volume, \
-            SETTINGS_FONT, VER_FONT_SM, FONT_SM, SETTINGS_FONT_SM, screen, \
-            menu_objects, settings_objects, settings_objects
+    global local_version, web_version, up_to_date, win_width, win_height, win_right, win_bottom, win_centrex, win_centrey, VER_FONT, FONT, music_volume, exit_game, settings_screen, previous_volume, SETTINGS_FONT, VER_FONT_SM, FONT_SM, SETTINGS_FONT_SM, screen, menu_objects, settings_objects, settings_objects
 
     clock = pygame.time.Clock()
     running: bool = True
