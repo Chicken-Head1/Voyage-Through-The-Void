@@ -11,7 +11,6 @@ import time
 
 pygame.init()
 WINDOW = pygame.display.set_mode(flags=pygame.RESIZABLE)
-pygame.display.set_caption("Space Simulator Updater")
 win_height = WINDOW.get_height()
 win_centrex = WINDOW.get_width()/2
 win_centrey = WINDOW.get_height()/2
@@ -34,9 +33,18 @@ WINDOW.blit(downloading_text,
 pygame.display.flip()
 
 
-NEW_DATA_URL = "https://chicken-head1.github.io/Space-Simulator/files/update/new_data.txt"
-BASE_FILE_URL = "https://chicken-head1.github.io/Space-Simulator/files"
+NEW_DATA_URL = "https://chicken-head1.github.io/Voyage-Through-The-Void/files/update/new_data.txt"
+BASE_FILE_URL = "https://chicken-head1.github.io/Voyage-Through-The-Void/files"
 DIRPATH: str = os.path.dirname(os.path.abspath(__file__))
+
+def get_file_data(url: str) -> str:
+    """
+    Gets the data of a specified file from the webserver through its URL, returning the data given.
+    """
+
+    data = str(requests.get(url).content).removeprefix("b'").removesuffix("\\n'")
+
+    return data
 
 try:
     data = requests.get(url=NEW_DATA_URL)
@@ -55,7 +63,7 @@ for command_set in data_list:
     except IndexError: # No commands for the updater to use
         break # Just reopen the game, this only occurs during development :3
     url = BASE_FILE_URL+file.replace('"', '')
-    new_data = str(requests.get(url).content).removeprefix("b'").removesuffix("\\n'")
+    new_data = get_file_data(url)
     file = file.removeprefix('"').removesuffix('"')
     file_path = DIRPATH+file
 
@@ -68,8 +76,64 @@ for command_set in data_list:
 
     elif command == 'adf' or command == 'edi': # add & edit file
         with open(file_path, 'w') as file:
-            file.write(new_data)
-    
+
+            skip = False
+            skipped = False
+            skipping = False
+            skippingg = False
+            skippinggg = False
+
+            if not file_path[-1] == "y" and file_path[-2] == 'p' and file_path[-3] == ".":
+                file.write(new_data)
+                break
+
+            for index, char in enumerate(new_data):
+
+                # Wanted newline \\n' -> \ \ \ \ n \ '
+                if char == "\\" and new_data[index+1] == "\\" and new_data[index+2] == "\\" and new_data[index+3] == "\\" and new_data[index+4] == "n" and new_data[index+5] == "\\" and new_data[index+6] == "'":
+                    file.write("\\")
+                    file.write("\\")
+                    skipping = True
+                    continue
+
+                if skipping == True:
+                    skipping = False
+                    skippingg = True
+                    continue
+
+                if skippingg == True:
+                    skippingg = False
+                    skippinggg = True
+                    continue
+
+                if skippinggg == True:
+                    skippinggg = False
+                    continue
+
+                # Newline
+                if char == "\\" and new_data[index+1] == "n":
+                    skip = True
+                    file.write("\n")
+
+                if skip == True:
+                    skip = False
+                    skipped = True
+                    continue
+
+                if skipped == True:
+                    skipped = False
+                    continue
+
+                # Single quote strings
+                if char == "\\" and new_data[index+1] == "'":
+                    continue
+
+                if char == "\\" and new_data[index+1] == "\\":
+                    continue
+
+                file.write(char)
+
+
     elif command == 'rmf': # remove file)
         try:
             os.remove(file_path)
@@ -82,15 +146,6 @@ for command_set in data_list:
             os.rmdir(file)
         except: # suppress errors from exiting the script
             ...
-
-def get_file_data(url: str) -> str:
-    """
-    Gets the data of a specified file from the webserver through its URL, returning the data given.
-    """
-
-    data = str(requests.get(url).content).removeprefix("b'").removesuffix("\\n'")
-
-    return data
 
 
 WINDOW.fill((0, 0, 0))
